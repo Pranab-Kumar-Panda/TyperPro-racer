@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeRacer Pro </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="logo.png" type="image/png">
+</head>
+<body class="text-white min-h-screen">
+    
+    <nav class="bg-white dark:bg-gray-800 fixed w-full z-50 shadow-md">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <a href="/" class="text-3xl md:text-2xl font-extrabold animated-title">TypeRacer Pro</a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center space-x-6">
+        <a href="index.html" class="hover:text-cyan-400 transition">Home</a>
+        <a href="about.html" class="hover:text-cyan-400 transition">About</a>
+        <button onclick="shareApp()" class="hover:text-cyan-400 transition">Share</button>
+        <button id="theme-toggle" class="text-xl">🌙</button>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div class="md:hidden flex items-center space-x-4">
+        <button id="theme-toggle-mobile" class="text-xl">🌙</button>
+        <button id="mobile-menu-button" class="hamburger">
+          <span class="block w-6 h-0.5 bg-black dark:bg-white my-1"></span>
+          <span class="block w-6 h-0.5 bg-black dark:bg-white my-1"></span>
+          <span class="block w-6 h-0.5 bg-black dark:bg-white my-1"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Nav -->
+  <div id="mobile-menu" class="fixed top-16 right-0 w-64 h-screen bg-white dark:bg-gray-900 transform translate-x-full transition-transform md:hidden z-50">
+    <div class="p-6 flex flex-col space-y-4">
+      <a href="index.html" class="hover:text-cyan-400">Home</a>
+      <a href="about.html" class="hover:text-cyan-400">About</a>
+      <button onclick="shareApp()" class="hover:text-cyan-400">Share</button>
+    </div>
+  </div>
+
+  <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 md:hidden"></div>
+</nav>
+
+<!-- Spacer below nav -->
+<div class="h-16"></div>
+
+        
+        <!-- Mobile menu overlay -->
+        <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
+    </nav>
+
+    <!-- Spacer for fixed nav -->
+    <div class="h-16 lg:h-20"></div>
+
+    <div class="min-h-screen p-4">
+        <!-- Floating Background Elements -->
+        <div class="fixed inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-20 left-10 w-20 h-20 bg-white opacity-10 rounded-full floating"></div>
+            <div class="absolute top-40 right-20 w-16 h-16 bg-white opacity-10 rounded-full floating" style="animation-delay: 1s;"></div>
+            <div class="absolute bottom-40 left-20 w-12 h-12 bg-white opacity-10 rounded-full floating" style="animation-delay: 2s;"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-8 slide-up">
+                <h1 class="text-6xl font-black text-white mb-4">
+                    <span class="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                        TypeRacer
+                    </span>
+                    <span class="text-white">Pro</span>
+                </h1>
+                <p class="text-xl text-white/80 font-light">Master your typing skills with style</p>
+                <div class="mt-4 w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 mx-auto rounded-full"></div>
+            </div>
+
+            <!-- Stats Dashboard -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 slide-up">
+                <div class="stat-card rounded-2xl p-6 text-center">
+                    <div class="relative w-20 h-20 mx-auto mb-4">
+                        <svg class="progress-ring w-20 h-20">
+                            <circle cx="40" cy="40" r="36" stroke="rgba(255,255,255,0.2)" stroke-width="4" fill="transparent"/>
+                            <circle id="wpm-circle" class="progress-ring-circle" cx="40" cy="40" r="36" stroke="#00ff88" stroke-width="4" fill="transparent"/>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span id="wpm" class="text-2xl font-bold text-white">0</span>
+                        </div>
+                    </div>
+                    <div class="text-white/70 font-medium">Words/Min</div>
+                </div>
+
+                <div class="stat-card rounded-2xl p-6 text-center">
+                    <div class="text-4xl font-black text-cyan-400 mb-2" id="accuracy">100%</div>
+                    <div class="text-white/70 font-medium">Accuracy</div>
+                    <div class="mt-2 w-full bg-white/20 rounded-full h-2">
+                        <div id="accuracy-bar" class="bg-gradient-to-r from-cyan-400 to-green-400 h-2 rounded-full transition-all duration-500" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <div class="stat-card rounded-2xl p-6 text-center">
+                    <div class="text-4xl font-black text-purple-400 mb-2" id="timer">60</div>
+                    <div class="text-white/70 font-medium">Time Left</div>
+                    <div class="mt-2 w-full bg-white/20 rounded-full h-2">
+                        <div id="timer-bar" class="bg-gradient-to-r from-purple-400 to-pink-400 h-2 rounded-full transition-all duration-1000" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <div class="stat-card rounded-2xl p-6 text-center">
+                    <div class="text-4xl font-black text-red-400 mb-2" id="errors">0</div>
+                    <div class="text-white/70 font-medium">Errors</div>
+                    <div class="text-xs text-white/50 mt-1">Stay focused!</div>
+                </div>
+            </div>
+
+            <!-- Category Selection -->
+            <div class="glass-effect rounded-2xl p-6 mb-8 slide-up">
+                <h3 class="text-2xl font-bold text-white mb-6 text-center">Choose Your Challenge</h3>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button class="category-btn active px-6 py-3 rounded-xl font-semibold text-white transition-all" data-type="general">
+                        🌟 General
+                    </button>
+                    <button class="category-btn px-6 py-3 rounded-xl font-semibold text-white transition-all" data-type="programming">
+                        💻 Code
+                    </button>
+                    <button class="category-btn px-6 py-3 rounded-xl font-semibold text-white transition-all" data-type="quotes">
+                        💭 Quotes
+                    </button>
+                    <button class="category-btn px-6 py-3 rounded-xl font-semibold text-white transition-all" data-type="business">
+                        📊 Business
+                    </button>
+                    <button class="category-btn px-6 py-3 rounded-xl font-semibold text-white transition-all" data-type="science">
+                        🔬 Science
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Typing Area -->
+            <div class="glass-effect rounded-2xl p-8 mb-8 slide-up">
+                <!-- Sentence Display -->
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-white">Type This Sentence:</h3>
+                        <button id="copyBtn" class="px-4 py-2 bg-white/20 text-white rounded-lg hover:bg-white/30 transition-all backdrop-blur-sm font-medium">
+                            📋 Copy Text
+                        </button>
+                    </div>
+                    <div id="sentenceDisplay" class="sentence-display text-2xl leading-relaxed font-mono p-6 rounded-xl text-white/90">
+                        Click "Start Typing" to begin your challenge...
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="mb-8">
+                    <textarea 
+                        id="typingInput" 
+                        class="typing-area w-full h-40 p-6 text-xl font-mono rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 text-white placeholder-white/50 resize-none transition-all" 
+                        placeholder="Your typing will appear here..."
+                        disabled
+                    ></textarea>
+                </div>
+
+                <!-- Control Buttons -->
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <button id="startBtn" class="btn-primary px-8 py-4 rounded-xl text-white font-bold text-lg shadow-lg">
+                        🚀 Start Typing
+                    </button>
+                    <button id="resetBtn" class="btn-secondary px-8 py-4 rounded-xl text-white font-bold text-lg shadow-lg">
+                        🔄 Reset Test
+                    </button>
+                    <button id="newSentenceBtn" class="btn-purple px-8 py-4 rounded-xl text-white font-bold text-lg shadow-lg">
+                        ✨ New Sentence
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Modal -->
+            <div id="results" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+                <div class="glass-effect rounded-2xl p-8 max-w-lg w-full slide-up">
+                    <div class="text-center">
+                        <div class="text-6xl mb-4">🎉</div>
+                        <h3 class="text-3xl font-black text-white mb-6">Test Complete!</h3>
+                        
+                        <div class="grid grid-cols-2 gap-6 mb-6">
+                            <div class="text-center">
+                                <div class="text-5xl font-black text-cyan-400 mb-2" id="finalWPM">0</div>
+                                <div class="text-white/70">WPM</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-5xl font-black text-green-400 mb-2" id="finalAccuracy">0%</div>
+                                <div class="text-white/70">Accuracy</div>
+                            </div>
+                        </div>
+                        
+                        <div id="performanceMessage" class="text-xl font-semibold text-white mb-6 bg-white/10 rounded-lg p-4"></div>
+                        
+                        <button onclick="location.reload()" class="btn-success px-8 py-4 rounded-xl text-white font-bold text-lg shadow-lg">
+                            🎯 Try Again
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
